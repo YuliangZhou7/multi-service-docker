@@ -14,23 +14,24 @@ after_success:
   - docker build -t julianz7/multi-service-server ./server
   - docker build -t julianz7/multi-service-worker ./worker
   # Log in to docker CLI
-  # - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  - docker login -u "$DOCKER_ID" -p "$DOCKER_PASSWORD"
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  #INSECURE via CLI - docker login -u "$DOCKER_ID" -p "$DOCKER_PASSWORD"
   # Take those images and push to docker hub
   - docker push julianz7/multi-service-client
   - docker push julianz7/multi-service-nginx
   - docker push julianz7/multi-service-server
   - docker push julianz7/multi-service-worker
 
-# deploy:
-#   provider: elasticbeanstalk
-#   region: "us-east-1"
-#   app: "docker-react"
-#   env: "DockerReact-env"
-#   bucket_name: "elasticbeanstalk-us-east-1-360149086885"
-#   bucket_path: "docker-react"
-#   on: 
-#     branch: master
-#   access_key_id: $AWS_ACCESS_KEY
-#   secret_access_key:
-#       secure: "$AWS_SECRET_KEY"
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: "multi-socker"
+  env: "MultiDocker-env"
+  bucket_name: "elasticbeanstalk-us-east-1-360149086885"
+  bucket_path: "docker-multi"
+  on: 
+    branch: master
+  access_key_id: 
+    secure: $AWS_ACCESS_KEY
+  secret_access_key:
+      secure: "$AWS_SECRET_KEY"
